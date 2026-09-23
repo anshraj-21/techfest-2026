@@ -9,10 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const ring = document.createElement('div');
-    ring.id = 'vyom-cursor-ring';
+    ring.id = 'Vidyut-cursor-ring';
     
     const dot = document.createElement('div');
-    dot.id = 'vyom-cursor-dot';
+    dot.id = 'Vidyut-cursor-dot';
 
     document.body.appendChild(ring);
     document.body.appendChild(dot);
@@ -37,7 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
     interactiveElements.forEach(el => {
         el.addEventListener('mouseenter', () => {
             document.body.classList.add('cursor-hover');
-            if(window.VYOM_AUDIO) window.VYOM_AUDIO.play('hover');
+            if(window.Vidyut_AUDIO) window.Vidyut_AUDIO.play('hover');
         });
         el.addEventListener('mouseleave', () => {
             document.body.classList.remove('cursor-hover');

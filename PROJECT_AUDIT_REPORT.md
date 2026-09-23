@@ -1,11 +1,11 @@
 # Complete Project & Codebase Comprehensive Audit
-**Project:** VYOM 2026 Official Website
+**Project:** Vidyut 2026 Official Website
 **Date:** September 23, 2026
 
 ---
 
 ## 1. Scope & Objective
-This audit covers the exhaustive review of the VYOM-2026-main repository. The analysis spans across architecture, UI/UX consistency, data flow, code hygiene, security, and performance bottlenecks to provide actionable refactoring recommendations.
+This audit covers the exhaustive review of the Vidyut-2026-main repository. The analysis spans across architecture, UI/UX consistency, data flow, code hygiene, security, and performance bottlenecks to provide actionable refactoring recommendations.
 
 ---
 
@@ -13,7 +13,7 @@ This audit covers the exhaustive review of the VYOM-2026-main repository. The an
 
 ### Section 1: Executive Summary & Project Overview
 - **Project Purpose & Stack**: 
-  - **Purpose**: Official event showcase and registration platform for VYOM 2026, Rungta University's annual fest.
+  - **Purpose**: Official event showcase and registration platform for Vidyut 2026, Rungta University's annual fest.
   - **Core Tech Stack**: HTML5, Vanilla CSS3 (custom styles, CSS variables), Vanilla JavaScript (ES6+).
   - **Frameworks/Libraries**: None. It is a pure static Multi-Page Application (MPA).
   - **Environment**: Client-side browser execution, with form submissions sent to a Google Apps Script endpoint.

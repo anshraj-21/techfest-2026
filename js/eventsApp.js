@@ -13,7 +13,7 @@ function initEvents() {
             document.querySelectorAll('.db-filter').forEach(b => b.classList.remove('active'));
             e.target.classList.add('active');
             currentFilter = e.target.dataset.cat;
-            if(window.VYOM_AUDIO) window.VYOM_AUDIO.play('hover');
+            if(window.Vidyut_AUDIO) window.Vidyut_AUDIO.play('hover');
             renderEvents();
         });
     });
@@ -82,7 +82,7 @@ function getEventById(id) {
 function openDetails(id) {
     const ev = getEventById(id);
     if (!ev) return;
-    if(window.VYOM_AUDIO) window.VYOM_AUDIO.play('menu');
+    if(window.Vidyut_AUDIO) window.Vidyut_AUDIO.play('menu');
     alert(`MISSION DOSSIER: ${ev.name}\n\n${ev.desc}\n\nVenue: ${ev.venue}`);
     // Ideally this would be a full page view or another modal. For brevity, using an alert/prompt style or I could build a custom details view.
     // The prompt requested a registration terminal specifically, we can use the same terminal for details.
@@ -92,7 +92,7 @@ function openRegister(id) {
     const ev = getEventById(id);
     if (!ev) return;
     
-    if(window.VYOM_AUDIO) window.VYOM_AUDIO.play('menu');
+    if(window.Vidyut_AUDIO) window.Vidyut_AUDIO.play('menu');
 
     document.getElementById('term-event-id').textContent = `VY-${ev.id.substring(0,6).toUpperCase()}`;
     document.getElementById('term-event-name').textContent = ev.name;
@@ -134,7 +134,7 @@ function closeTerminal() {
 
 function submitForm(e) {
     e.preventDefault();
-    if(window.VYOM_AUDIO) window.VYOM_AUDIO.play('hover');
+    if(window.Vidyut_AUDIO) window.Vidyut_AUDIO.play('hover');
     
     const btn = document.getElementById('term-submit-btn');
     const status = document.getElementById('term-status');
@@ -158,7 +158,7 @@ function submitForm(e) {
             ...dataObj
         })
     }).then(() => {
-        if(window.VYOM_AUDIO) window.VYOM_AUDIO.play('success');
+        if(window.Vidyut_AUDIO) window.Vidyut_AUDIO.play('success');
         e.target.style.display = 'none';
         document.getElementById('term-success').style.display = 'flex';
         status.innerHTML = '';

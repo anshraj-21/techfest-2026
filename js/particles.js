@@ -1,7 +1,7 @@
 // particles.js - Cinematic Particle Field (Canvas)
 
 (function() {
-    const canvas = document.getElementById('vyom-particles');
+    const canvas = document.getElementById('hero-particles');
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d', { alpha: true });
@@ -22,8 +22,8 @@
                 speedX: (Math.random() - 0.5) * 0.4,
                 speedY: (Math.random() - 0.5) * 0.4,
                 opacity: Math.random() * 0.5 + 0.1,
-                // mostly red, occasionally blue
-                color: Math.random() > 0.85 ? '#00C8FF' : '#E62429'
+                // mostly cinematic gold, occasionally red
+                color: Math.random() > 0.85 ? '#C51D27' : '#C9A45A'
             });
         }
     }

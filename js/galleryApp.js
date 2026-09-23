@@ -13,7 +13,7 @@ function renderGallery() {
 
         return `
         <div class="archive-item ${spanClass}" style="animation-delay: ${delay}s" onclick="openLightbox(${index})">
-            <img src="${photo.src}" alt="${photo.title || 'VYOM Archive'}" loading="lazy">
+            <img src="${photo.src}" alt="${photo.title || 'Vidyut Archive'}" loading="lazy">
             <div class="a-overlay">
                 <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
                 <div class="hud-corner bl"></div><div class="hud-corner br"></div>
@@ -38,11 +38,11 @@ function openLightbox(index) {
     
     if (!lb || !img || !PHOTOS[index]) return;
     
-    if(window.VYOM_AUDIO) window.VYOM_AUDIO.play('menu');
+    if(window.Vidyut_AUDIO) window.Vidyut_AUDIO.play('menu');
     
     const photo = PHOTOS[index];
     img.src = photo.src;
-    meta.innerHTML = `[ IMAGE ${String(index + 1).padStart(2,'0')} / ${String(PHOTOS.length).padStart(2,'0')} ]<br><span style="color:var(--white)">${photo.title || 'RECORD'} // VYOM</span>`;
+    meta.innerHTML = `[ IMAGE ${String(index + 1).padStart(2,'0')} / ${String(PHOTOS.length).padStart(2,'0')} ]<br><span style="color:var(--white)">${photo.title || 'RECORD'} // Vidyut</span>`;
     
     lb.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -60,7 +60,7 @@ function nextPhoto(e) {
     if(e) e.stopPropagation();
     if (currentPhotoIndex < PHOTOS.length - 1) {
         openLightbox(currentPhotoIndex + 1);
-        if(window.VYOM_AUDIO) window.VYOM_AUDIO.play('hover');
+        if(window.Vidyut_AUDIO) window.Vidyut_AUDIO.play('hover');
     }
 }
 
@@ -68,7 +68,7 @@ function prevPhoto(e) {
     if(e) e.stopPropagation();
     if (currentPhotoIndex > 0) {
         openLightbox(currentPhotoIndex - 1);
-        if(window.VYOM_AUDIO) window.VYOM_AUDIO.play('hover');
+        if(window.Vidyut_AUDIO) window.Vidyut_AUDIO.play('hover');
     }
 }
 

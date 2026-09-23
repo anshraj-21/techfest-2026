@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 cmdMenu.classList.add('open');
                 document.body.style.overflow = 'hidden';
-                if(window.VYOM_AUDIO) window.VYOM_AUDIO.play('menu');
+                if(window.Vidyut_AUDIO) window.Vidyut_AUDIO.play('menu');
             }
         });
     }
@@ -42,12 +42,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         setTimeout(() => {
             if (title) title.classList.add('show');
-            if(window.VYOM_AUDIO) window.VYOM_AUDIO.play('success');
+            if(window.Vidyut_AUDIO) window.Vidyut_AUDIO.play('success');
         }, 800);
 
         setTimeout(() => {
             sysBoot.classList.add('hidden');
-            if(window.VYOM_AUDIO) window.VYOM_AUDIO.play('transition');
+            if(window.Vidyut_AUDIO) window.Vidyut_AUDIO.play('transition');
             setTimeout(() => sysBoot.remove(), 500); // Cleanup
         }, 2000);
     }
