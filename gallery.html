@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VISUAL ARCHIVE // VYOM 2026</title>
+<link rel="icon" type="image/png" href="https://i.ibb.co/TD3bmT7h/Untitled-design.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* Specific overrides for gallery.html */
+.page-header {
+  padding: 150px 3rem 4rem;
+  max-width: 1300px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--steel);
+}
+
+.archive-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-auto-rows: 250px;
+  grid-auto-flow: dense;
+  gap: 1.5rem;
+  max-width: 1300px;
+  margin: 4rem auto;
+  padding: 0 3rem;
+}
+
+.archive-item {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid var(--steel);
+  cursor: none;
+  animation: slideUp 0.6s backwards;
+  background: var(--gunmetal);
+}
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+.archive-item.large { grid-column: span 2; grid-row: span 2; }
+.archive-item.tall { grid-row: span 2; }
+
+.archive-item img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(100%) contrast(1.2);
+  transition: transform 0.8s, filter 0.8s;
+}
+
+.archive-item:hover img {
+  transform: scale(1.08);
+  filter: grayscale(0%);
+}
+
+.a-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(5,7,10,0.9), transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding: 1.5rem;
+}
+
+.archive-item:hover .a-overlay {
+  opacity: 1;
+}
+
+.a-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  transform: translateY(20px);
+  transition: transform 0.4s;
+}
+
+.archive-item:hover .a-meta { transform: translateY(0); }
+
+.a-id {
+  font-family: var(--hud-font);
+  font-size: 0.6rem;
+  color: var(--hud-cyan);
+  letter-spacing: 3px;
+}
+.a-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  color: var(--white);
+  letter-spacing: 2px;
+}
+
+.m-scan-line {
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: rgba(230, 36, 41, 0.8);
+  box-shadow: 0 0 10px var(--energy-red);
+  transform: translateY(-100%);
+  transition: transform 0.8s ease-in-out;
+}
+.archive-item:hover .m-scan-line {
+  transform: translateY(500px);
+}
+
+/* CINEMATIC LIGHTBOX */
+#lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(3, 5, 8, 0.98);
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.4s;
+}
+#lightbox.open { opacity: 1; visibility: visible; }
+
+.lb-content {
+  position: relative;
+  width: 90%;
+  max-width: 1200px;
+  height: 85vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.lb-img-wrap {
+  position: relative;
+  max-width: 100%;
+  max-height: 100%;
+  border: 1px solid var(--steel-light);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+}
+
+.lb-img-wrap img {
+  max-width: 100%;
+  max-height: 80vh;
+  object-fit: contain;
+  display: block;
+}
+
+.lb-meta {
+  position: absolute;
+  bottom: -40px;
+  left: 0; right: 0;
+  text-align: center;
+  font-family: var(--hud-font);
+  font-size: 0.65rem;
+  color: var(--hud-cyan);
+  letter-spacing: 4px;
+  line-height: 1.6;
+}
+
+.lb-close {
+  position: absolute;
+  top: -40px; right: 0;
+  background: transparent; border: none;
+  color: var(--muted);
+  font-family: var(--hud-font);
+  font-size: 0.8rem;
+  letter-spacing: 2px;
+  cursor: none;
+  transition: color 0.2s;
+}
+.lb-close:hover { color: var(--hero-red); }
+
+.lb-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(11, 15, 20, 0.8);
+  border: 1px solid var(--steel);
+  color: var(--silver);
+  width: 50px; height: 50px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--hud-font);
+  cursor: none;
+  transition: all 0.3s;
+}
+.lb-nav:hover { border-color: var(--hud-cyan); color: var(--hud-cyan); background: var(--gunmetal); }
+.lb-prev { left: -70px; }
+.lb-next { right: -70px; }
+
+@media(max-width: 900px) {
+  .page-header { padding: 120px 1.5rem 3rem; }
+  .archive-grid { padding: 0 1.5rem; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); grid-auto-rows: 200px; }
+  .archive-item.large { grid-column: span 1; grid-row: span 1; }
+  .lb-prev, .lb-next { display: none; /* Rely on swiping in real app, but for now buttons hidden */ }
+  .lb-meta { bottom: 20px; text-shadow: 0 2px 4px #000; }
+  .lb-close { top: 20px; right: 20px; z-index: 10; color: var(--white); }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-cinematic"></div>
+<div class="bg-grid"></div>
+<div class="bg-scanlines"></div>
+
+<!-- MOBILE COMMAND MENU -->
+<div id="cmd-menu">
+  <a href="index.html">01 HOME</a>
+  <a href="events.html">02 EVENTS</a>
+  <a href="gallery.html" class="active">03 GALLERY</a>
+  <a href="sponsors.html">04 SPONSORS</a>
+  <a href="brochure.html">05 DOSSIER</a>
+</div>
+
+<!-- NAVBAR HUD -->
+<nav id="hud-navbar">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-brand-title">VYOM</span>
+    <span class="nav-brand-sub">SYS // 2026</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="gallery.html" class="active">Archive</a></li>
+    <li><a href="sponsors.html">Allies</a></li>
+    <li><a href="brochure.html">Dossier</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="sys-indicator">
+      <div class="sys-dot"></div>
+      SYSTEM ONLINE
+    </div>
+    <button class="hamburger" id="btn-hamburger">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<header class="page-header reveal">
+  <div class="section-label">SYSTEM LOG // MODULE 03</div>
+  <h1 class="cinematic-title">VISUAL <span>ARCHIVE</span></h1>
+  <p style="color:var(--silver); font-size:1.1rem; letter-spacing:1px; max-width:600px;">Access classified visual records of past operations and missions.</p>
+</header>
+
+<main>
+  <div class="archive-grid" id="archive-grid">
+    <!-- Rendered via galleryApp.js -->
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="cmd-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="f-brand">VYOM 2026</div>
+      <div class="f-sys-status">SYSTEM: ONLINE // 25-29 MAR</div>
+    </div>
+    <div class="f-col">
+      <h4>SYSTEM LINKS</h4>
+      <ul>
+        <li><a href="index.html">Home Terminal</a></li>
+        <li><a href="events.html">Event Database</a></li>
+        <li><a href="gallery.html">Visual Archive</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>RESOURCES</h4>
+      <ul>
+        <li><a href="sponsors.html">Allies & Partners</a></li>
+        <li><a href="brochure.html">Official Dossier</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="f-bottom">
+    <span>© 2026 RUNGTA UNIVERSITY. END TRANSMISSION.</span>
+  </div>
+</footer>
+
+<!-- CINEMATIC LIGHTBOX -->
+<div id="lightbox">
+  <div class="lb-content">
+    <button class="lb-close" onclick="closeLightbox()">[ CLOSE ]</button>
+    <div class="lb-img-wrap">
+      <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
+      <div class="hud-corner bl"></div><div class="hud-corner br"></div>
+      <img id="lb-img" src="" alt="Archive Full">
+      <button class="lb-nav lb-prev" onclick="prevPhoto(event)">←</button>
+      <button class="lb-nav lb-next" onclick="nextPhoto(event)">→</button>
+    </div>
+    <div class="lb-meta" id="lb-meta"></div>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+<script src="js/cursor.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/galleryData.js"></script>
+<script src="js/galleryApp.js"></script>
+</body>
+</html>

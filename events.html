@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EVENT DATABASE // VYOM 2026</title>
+<link rel="icon" type="image/png" href="https://i.ibb.co/TD3bmT7h/Untitled-design.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* Specific overrides for events.html */
+.page-header {
+  padding: 150px 3rem 4rem;
+  max-width: 1300px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--steel);
+}
+.db-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 3rem;
+}
+.db-filters {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.db-filter {
+  background: transparent;
+  border: 1px solid var(--steel-light);
+  color: var(--silver);
+  padding: 8px 16px;
+  font-family: var(--hud-font);
+  font-size: 0.65rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: none;
+  transition: all 0.3s;
+}
+.db-filter:hover {
+  border-color: var(--hud-cyan);
+  color: var(--hud-cyan);
+}
+.db-filter.active {
+  background: rgba(230, 36, 41, 0.1);
+  border-color: var(--energy-red);
+  color: var(--energy-red);
+  box-shadow: 0 0 10px rgba(230, 36, 41, 0.2);
+}
+.db-search input {
+  background: rgba(11, 15, 20, 0.8);
+  border: 1px solid var(--steel-light);
+  color: var(--white);
+  padding: 10px 16px;
+  font-family: var(--hud-font);
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  width: 300px;
+  outline: none;
+  transition: border-color 0.3s;
+}
+.db-search input:focus {
+  border-color: var(--hud-cyan);
+  box-shadow: 0 0 10px rgba(0, 200, 255, 0.2);
+}
+
+/* MISSION CARDS */
+.mission-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 2.5rem;
+  max-width: 1300px;
+  margin: 4rem auto;
+  padding: 0 3rem;
+}
+.mission-card {
+  background: var(--gunmetal);
+  border: 1px solid var(--steel-light);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: all 0.3s;
+  animation: slideUp 0.6s backwards;
+}
+@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+.mission-card:hover {
+  border-color: var(--hud-blue);
+  box-shadow: 0 5px 20px rgba(0, 200, 255, 0.1);
+  transform: translateY(-5px);
+}
+.m-img-wrap {
+  position: relative;
+  height: 200px;
+  overflow: hidden;
+  border-bottom: 1px solid var(--steel);
+}
+.m-img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(80%) sepia(20%) hue-rotate(180deg);
+  transition: transform 0.5s, filter 0.5s;
+}
+.mission-card:hover .m-img {
+  transform: scale(1.05);
+  filter: grayscale(0%);
+}
+.m-cat-tag {
+  position: absolute;
+  top: 15px; left: 15px;
+  background: rgba(0,0,0,0.8);
+  border: 1px solid var(--hud-cyan);
+  color: var(--hud-cyan);
+  padding: 4px 10px;
+  font-family: var(--hud-font);
+  font-size: 0.55rem;
+  letter-spacing: 2px;
+  backdrop-filter: blur(4px);
+}
+.m-id-tag {
+  position: absolute;
+  bottom: 10px; right: 10px;
+  font-family: var(--hud-font);
+  font-size: 0.5rem;
+  color: var(--silver);
+  letter-spacing: 2px;
+  text-shadow: 0 1px 2px #000;
+}
+.m-scan-line {
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: rgba(230, 36, 41, 0.8);
+  box-shadow: 0 0 10px var(--energy-red);
+  transform: translateY(-100%);
+  transition: transform 0.8s ease-in-out;
+  opacity: 0;
+}
+.mission-card:hover .m-scan-line {
+  transform: translateY(200px);
+  opacity: 1;
+}
+.m-info {
+  padding: 2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.m-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 2px;
+  margin-bottom: 1rem;
+}
+.m-desc {
+  font-size: 0.85rem;
+  color: var(--silver);
+  line-height: 1.5;
+  margin-bottom: 2rem;
+  flex: 1;
+}
+.m-meta-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  border-top: 1px solid var(--steel);
+  padding-top: 1rem;
+}
+.m-meta {
+  font-family: var(--hud-font);
+  font-size: 0.6rem;
+  color: var(--white);
+}
+.m-meta span {
+  display: block;
+  color: var(--hud-cyan);
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+.m-actions {
+  display: flex;
+  gap: 1rem;
+}
+.m-actions button {
+  flex: 1;
+  padding: 10px;
+  font-size: 0.6rem;
+  cursor: none;
+}
+
+/* TERMINAL MODAL */
+#reg-terminal {
+  position: fixed;
+  inset: 0;
+  background: rgba(5, 7, 10, 0.95);
+  backdrop-filter: blur(10px);
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s;
+}
+#reg-terminal.open { opacity: 1; visibility: visible; }
+.term-window {
+  background: var(--gunmetal);
+  border: 1px solid var(--steel-light);
+  width: 90%;
+  max-width: 700px;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.8);
+}
+.term-header {
+  border-bottom: 1px solid var(--steel);
+  padding: 1.5rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.02);
+}
+.term-h-left {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.term-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  color: var(--white);
+  letter-spacing: 3px;
+}
+.term-sub {
+  font-family: var(--hud-font);
+  font-size: 0.6rem;
+  color: var(--hud-cyan);
+  letter-spacing: 4px;
+}
+.term-close {
+  background: transparent;
+  border: 1px solid var(--steel);
+  color: var(--muted);
+  width: 30px; height: 30px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: none;
+  transition: all 0.2s;
+  font-family: var(--hud-font);
+}
+.term-close:hover { border-color: var(--hero-red); color: var(--hero-red); }
+
+.term-body {
+  padding: 2rem;
+  overflow-y: auto;
+  font-family: 'Rajdhani', sans-serif;
+}
+.term-body::-webkit-scrollbar { width: 4px; }
+.term-body::-webkit-scrollbar-thumb { background: var(--steel); }
+
+.term-meta-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  padding: 1rem;
+  background: rgba(0,0,0,0.3);
+  border: 1px solid var(--steel-light);
+  margin-bottom: 2rem;
+}
+.term-meta-panel div {
+  font-family: var(--hud-font);
+  font-size: 0.65rem;
+  color: var(--silver);
+}
+.term-meta-panel span { color: var(--hud-cyan); margin-right: 10px; }
+
+.term-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+.term-group { display: flex; flex-direction: column; gap: 8px; }
+.term-group.full { grid-column: 1 / -1; }
+.term-group label {
+  font-family: var(--hud-font);
+  font-size: 0.65rem;
+  color: var(--silver);
+  letter-spacing: 2px;
+}
+.term-group label .req { color: var(--energy-red); }
+.term-group input, .term-group select {
+  background: var(--void);
+  border: 1px solid var(--steel);
+  padding: 12px;
+  color: var(--white);
+  font-family: 'Rajdhani', sans-serif;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.term-group input:focus, .term-group select:focus {
+  border-color: var(--energy-red);
+}
+
+.term-footer {
+  padding: 2rem;
+  border-top: 1px solid var(--steel);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.term-status {
+  font-family: var(--hud-font);
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+}
+.btn-submit {
+  background: var(--energy-red);
+  color: var(--white);
+  border: none;
+  padding: 12px 24px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 3px;
+  cursor: none;
+  transition: all 0.3s;
+}
+.btn-submit:hover { background: var(--hot-red); box-shadow: 0 0 20px rgba(230, 36, 41, 0.4); }
+.btn-submit:disabled { background: var(--steel); color: var(--muted); cursor: not-allowed; }
+
+#term-success {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 4rem 2rem;
+  text-align: center;
+}
+.ts-icon {
+  width: 60px; height: 60px;
+  border: 2px solid var(--hud-cyan);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--hud-cyan);
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 0 20px rgba(0, 200, 255, 0.2);
+}
+.ts-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.5rem;
+  color: var(--white);
+  letter-spacing: 4px;
+  margin-bottom: 1rem;
+}
+.ts-sub {
+  font-family: var(--hud-font);
+  font-size: 0.75rem;
+  color: var(--silver);
+  letter-spacing: 2px;
+}
+
+@media(max-width: 900px) {
+  .page-header { padding: 120px 1.5rem 3rem; }
+  .mission-grid { padding: 0 1.5rem; grid-template-columns: 1fr; }
+  .term-grid { grid-template-columns: 1fr; }
+  .db-search input { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-cinematic"></div>
+<div class="bg-grid"></div>
+<div class="bg-scanlines"></div>
+
+<!-- MOBILE COMMAND MENU -->
+<div id="cmd-menu">
+  <a href="index.html">01 HOME</a>
+  <a href="events.html" class="active">02 EVENTS</a>
+  <a href="gallery.html">03 GALLERY</a>
+  <a href="sponsors.html">04 SPONSORS</a>
+  <a href="brochure.html">05 DOSSIER</a>
+</div>
+
+<!-- NAVBAR HUD -->
+<nav id="hud-navbar">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-brand-title">VYOM</span>
+    <span class="nav-brand-sub">SYS // 2026</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="events.html" class="active">Events</a></li>
+    <li><a href="gallery.html">Archive</a></li>
+    <li><a href="sponsors.html">Allies</a></li>
+    <li><a href="brochure.html">Dossier</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="sys-indicator">
+      <div class="sys-dot"></div>
+      SYSTEM ONLINE
+    </div>
+    <button class="hamburger" id="btn-hamburger">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<header class="page-header reveal">
+  <div class="section-label">SYSTEM LOG // MODULE 02</div>
+  <h1 class="cinematic-title">EVENT <span>DATABASE</span></h1>
+  <p style="color:var(--silver); font-size:1.1rem; letter-spacing:1px; max-width:600px;">Explore all available missions. Filter by sector or search the archives.</p>
+  
+  <div class="db-controls">
+    <div class="db-filters">
+      <button class="db-filter active" data-cat="all">ALL</button>
+      <button class="db-filter" data-cat="cultural">CULTURAL</button>
+      <button class="db-filter" data-cat="technical">TECHNICAL</button>
+      <button class="db-filter" data-cat="management">MANAGEMENT</button>
+      <button class="db-filter" data-cat="esports">E-SPORTS</button>
+      <button class="db-filter" data-cat="sports">SPORTS</button>
+    </div>
+    <div class="db-search">
+      <input type="text" id="search-input" placeholder="[ SEARCH MISSIONS ]">
+    </div>
+  </div>
+</header>
+
+<main>
+  <div class="mission-grid" id="mission-grid">
+    <!-- Rendered via eventsApp.js -->
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="cmd-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="f-brand">VYOM 2026</div>
+      <div class="f-sys-status">SYSTEM: ONLINE // 25-29 MAR</div>
+    </div>
+    <div class="f-col">
+      <h4>SYSTEM LINKS</h4>
+      <ul>
+        <li><a href="index.html">Home Terminal</a></li>
+        <li><a href="events.html">Event Database</a></li>
+        <li><a href="gallery.html">Visual Archive</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>RESOURCES</h4>
+      <ul>
+        <li><a href="sponsors.html">Allies & Partners</a></li>
+        <li><a href="brochure.html">Official Dossier</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="f-bottom">
+    <span>© 2026 RUNGTA UNIVERSITY. END TRANSMISSION.</span>
+  </div>
+</footer>
+
+<!-- REGISTRATION TERMINAL MODAL -->
+<div id="reg-terminal">
+  <div class="term-window">
+    <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
+    <div class="hud-corner bl"></div><div class="hud-corner br"></div>
+    
+    <div class="term-header">
+      <div class="term-h-left">
+        <div class="term-sub">SECURE REGISTRATION CHANNEL</div>
+        <div class="term-title">MISSION DOSSIER</div>
+      </div>
+      <button class="term-close" onclick="closeTerminal()">X</button>
+    </div>
+    
+    <div class="term-body">
+      <form id="term-form">
+        <div class="term-meta-panel">
+          <div><span>ID:</span> <span id="term-event-id" style="color:var(--white)"></span></div>
+          <div><span>SECTOR:</span> <span id="term-event-cat" style="color:var(--white)"></span></div>
+          <div style="grid-column: 1/-1"><span>MISSION:</span> <strong id="term-event-name" style="color:var(--white); font-family:'Orbitron', sans-serif"></strong></div>
+        </div>
+        
+        <div class="term-grid" id="term-fields">
+          <!-- Form fields injected here -->
+        </div>
+        
+        <div class="term-footer">
+          <div class="term-status" id="term-status">AWAITING INPUT...</div>
+          <button type="submit" class="btn-submit" id="term-submit-btn">[ INITIATE UPLOAD ]</button>
+        </div>
+      </form>
+
+      <div id="term-success">
+        <div class="ts-icon">✓</div>
+        <div class="ts-title">TRANSMISSION SECURED</div>
+        <div class="ts-sub">MISSION REGISTRATION LOGGED. PREPARE FOR DEPLOYMENT.</div>
+        <button class="btn-secondary" style="margin-top:2rem" onclick="closeTerminal()">[ CLOSE TERMINAL ]</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="js/main.js"></script>
+<script src="js/cursor.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/eventsData.js"></script>
+<script src="js/eventsApp.js"></script>
+</body>
+</html>

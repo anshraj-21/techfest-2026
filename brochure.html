@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MISSION DOSSIER // VYOM 2026</title>
+<link rel="icon" type="image/png" href="https://i.ibb.co/TD3bmT7h/Untitled-design.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* Specific overrides for brochure.html */
+.page-header {
+  padding: 150px 3rem 4rem;
+  max-width: 1300px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--steel);
+}
+
+.brochure-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  max-width: 1300px;
+  margin: 4rem auto;
+  padding: 0 3rem;
+}
+
+.brochure-preview {
+  background: var(--gunmetal);
+  border: 1px solid var(--steel-light);
+  aspect-ratio: 3/4;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+}
+.bp-bg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 40%, rgba(230, 36, 41, 0.1) 0%, transparent 70%);
+}
+.bp-content {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 2rem;
+}
+.bp-logo {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 4.5rem;
+  font-weight: 900;
+  color: var(--white);
+  letter-spacing: 8px;
+  text-shadow: 0 0 40px rgba(230, 36, 41, 0.4);
+  line-height: 1;
+}
+.bp-year {
+  font-family: var(--hud-font);
+  font-size: 0.8rem;
+  color: var(--hud-cyan);
+  letter-spacing: 12px;
+  margin-top: 10px;
+}
+.bp-syms {
+  margin: 3rem 0;
+  font-family: var(--hud-font);
+  font-size: 0.65rem;
+  color: var(--energy-red);
+  letter-spacing: 4px;
+}
+.bp-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--silver);
+  letter-spacing: 4px;
+  margin-bottom: 8px;
+}
+
+.brochure-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+.br-item {
+  background: rgba(11, 15, 20, 0.6);
+  border: 1px solid var(--steel);
+  padding: 2rem;
+  transition: all 0.3s;
+  position: relative;
+}
+.br-item:hover {
+  border-color: var(--hud-cyan);
+  background: var(--gunmetal);
+  transform: translateX(10px);
+}
+.br-item::before {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 2px;
+  background: var(--hud-cyan);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.br-item:hover::before { opacity: 1; }
+.br-item-head {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 12px;
+}
+.br-icon {
+  font-family: var(--hud-font);
+  color: var(--hud-cyan);
+  font-size: 1.2rem;
+}
+.br-item-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+.br-item-desc {
+  font-size: 0.95rem;
+  color: var(--silver);
+  line-height: 1.6;
+}
+
+.download-cta {
+  background: var(--gunmetal);
+  border: 1px solid var(--steel-light);
+  padding: 4rem 3rem;
+  text-align: center;
+  margin: 4rem auto;
+  max-width: 1000px;
+  position: relative;
+  overflow: hidden;
+}
+.download-cta::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: var(--energy-red);
+}
+.dc-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--white);
+  margin-bottom: 1rem;
+  letter-spacing: 4px;
+}
+.dc-sub {
+  font-size: 1.1rem;
+  color: var(--silver);
+  margin-bottom: 3rem;
+  line-height: 1.6;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.dc-btns {
+  display: flex;
+  gap: 1.5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+.btn-ghost {
+  display: inline-block;
+  background: transparent;
+  color: var(--silver);
+  padding: 14px 32px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--steel-light);
+  transition: all 0.3s;
+}
+.btn-ghost:hover {
+  border-color: var(--hud-cyan);
+  color: var(--hud-cyan);
+  background: rgba(0, 200, 255, 0.05);
+}
+.file-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 2rem;
+  justify-content: center;
+  font-family: var(--hud-font);
+  font-size: 0.65rem;
+  color: var(--muted);
+  letter-spacing: 2px;
+}
+
+@media(max-width: 900px) {
+  .page-header { padding: 120px 1.5rem 3rem; }
+  .brochure-layout { grid-template-columns: 1fr; padding: 0 1.5rem; gap: 3rem; }
+  .download-cta { margin: 3rem 1.5rem; padding: 3rem 1.5rem; }
+  .br-item:hover { transform: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-cinematic"></div>
+<div class="bg-grid"></div>
+<div class="bg-scanlines"></div>
+
+<!-- MOBILE COMMAND MENU -->
+<div id="cmd-menu">
+  <a href="index.html">01 HOME</a>
+  <a href="events.html">02 EVENTS</a>
+  <a href="gallery.html">03 GALLERY</a>
+  <a href="sponsors.html">04 SPONSORS</a>
+  <a href="brochure.html" class="active">05 DOSSIER</a>
+</div>
+
+<!-- NAVBAR HUD -->
+<nav id="hud-navbar">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-brand-title">VYOM</span>
+    <span class="nav-brand-sub">SYS // 2026</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="gallery.html">Archive</a></li>
+    <li><a href="sponsors.html">Allies</a></li>
+    <li><a href="brochure.html" class="active">Dossier</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="sys-indicator">
+      <div class="sys-dot"></div>
+      SYSTEM ONLINE
+    </div>
+    <button class="hamburger" id="btn-hamburger">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<header class="page-header reveal">
+  <div class="section-label">SYSTEM LOG // MODULE 05</div>
+  <h1 class="cinematic-title">MISSION <span>DOSSIER</span></h1>
+  <p style="color:var(--silver); font-size:1.1rem; letter-spacing:1px; max-width:600px;">Access the classified operational document containing all parameters for VYOM 2026.</p>
+</header>
+
+<main>
+  <div class="brochure-layout">
+    <div class="brochure-preview reveal">
+      <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
+      <div class="hud-corner bl"></div><div class="hud-corner br"></div>
+      <div class="bp-bg"></div>
+      <div class="bp-content">
+        <div class="bp-logo">VYOM</div>
+        <div class="bp-year">2 0 2 6</div>
+        <div class="bp-syms">[ DOSSIER ID: VY-26-001 ]</div>
+        <div class="bp-title">OFFICIAL DOCUMENT</div>
+        <div style="font-family:var(--hud-font); font-size:0.6rem; color:var(--muted); margin-top:10px;">STATUS: SECURE</div>
+      </div>
+    </div>
+    <div class="brochure-info reveal">
+      <div class="br-item">
+        <div class="br-item-head"><div class="br-icon">[ 01 ]</div><div class="br-item-title">Operational Schedule</div></div>
+        <div class="br-item-desc">A complete timeline of all missions, briefings, and ceremonies across the 6-day deployment.</div>
+      </div>
+      <div class="br-item">
+        <div class="br-item-head"><div class="br-icon">[ 02 ]</div><div class="br-item-title">Sector Coordinates</div></div>
+        <div class="br-item-desc">Detailed schematics of the Rungta Campus command center, mapping all mission zones.</div>
+      </div>
+      <div class="br-item">
+        <div class="br-item-head"><div class="br-icon">[ 03 ]</div><div class="br-item-title">Mission Parameters</div></div>
+        <div class="br-item-desc">Strict guidelines on squad formation, operational rules, and reward distributions.</div>
+      </div>
+      <div class="br-item">
+        <div class="br-item-head"><div class="br-icon">[ 04 ]</div><div class="br-item-title">Clearance Protocols</div></div>
+        <div class="br-item-desc">Secure registration procedures and communication channels for operatives.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="download-cta reveal">
+    <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
+    <div class="hud-corner bl"></div><div class="hud-corner br"></div>
+    <h2 class="dc-title">ACCESS FULL <span>DOSSIER</span></h2>
+    <p class="dc-sub">Retrieve the complete VYOM 2026 operational guide. Distribute it to your squad and prepare for deployment.</p>
+    <div class="dc-btns">
+      <a href="#" class="btn-primary" onclick="alert('Dossier encryption is currently active. Please stand by for official release or contact command.');return false;">[ DOWNLOAD DOSSIER ]</a>
+      <a href="mailto:vyom.s@rungta.ac.in?subject=VYOM 2026 Dossier Request" class="btn-ghost">[ REQUEST ACCESS ]</a>
+    </div>
+    <div class="file-info"><span>FORMAT: PDF</span><span>//</span><span>STATUS: ENCRYPTED</span></div>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="cmd-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="f-brand">VYOM 2026</div>
+      <div class="f-sys-status">SYSTEM: ONLINE // 25-29 MAR</div>
+    </div>
+    <div class="f-col">
+      <h4>SYSTEM LINKS</h4>
+      <ul>
+        <li><a href="index.html">Home Terminal</a></li>
+        <li><a href="events.html">Event Database</a></li>
+        <li><a href="gallery.html">Visual Archive</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>RESOURCES</h4>
+      <ul>
+        <li><a href="sponsors.html">Allies & Partners</a></li>
+        <li><a href="brochure.html">Official Dossier</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="f-bottom">
+    <span>© 2026 RUNGTA UNIVERSITY. END TRANSMISSION.</span>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/cursor.js"></script>
+<script src="js/audio.js"></script>
+</body>
+</html>

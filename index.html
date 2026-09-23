@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VYOM COMMAND // 2026</title>
+<link rel="icon" type="image/png" href="https://i.ibb.co/TD3bmT7h/Untitled-design.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* Specific overrides for index.html */
+#hero {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  overflow: hidden;
+  padding-top: 70px; /* navbar offset */
+}
+#vyom-particles {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -1;
+  pointer-events: none;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background-image: url('https://images.unsplash.com/photo-1542281286-9e0a16bb7366?auto=format&fit=crop&q=80&w=2000'); /* Placeholder cinematic background */
+  background-size: cover;
+  background-position: center;
+  opacity: 0.15;
+  mix-blend-mode: luminosity;
+  z-index: -2;
+}
+.hero-sys-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--hud-font);
+  font-size: 0.7rem;
+  color: var(--hud-cyan);
+  letter-spacing: 5px;
+  margin-bottom: 2rem;
+  padding: 6px 16px;
+  border: 1px solid rgba(0, 200, 255, 0.2);
+  background: rgba(0, 0, 0, 0.5);
+}
+.hero-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(4rem, 12vw, 9rem);
+  font-weight: 900;
+  line-height: 0.9;
+  letter-spacing: -2px;
+  color: var(--white);
+  text-shadow: 0 10px 40px rgba(0,0,0,0.8);
+  margin-bottom: 0.5rem;
+}
+.hero-subtitle {
+  font-family: 'Orbitron', sans-serif;
+  font-size: clamp(1.2rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--hero-red);
+  letter-spacing: 12px;
+  text-shadow: 0 0 20px rgba(201, 24, 36, 0.5);
+  margin-bottom: 3rem;
+}
+.hero-msg {
+  font-size: 1rem;
+  color: var(--silver);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  max-width: 600px;
+  margin-bottom: 3rem;
+  opacity: 0.8;
+}
+.hero-actions {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 4rem;
+}
+.btn-primary {
+  display: inline-block;
+  background: var(--energy-red);
+  color: var(--white);
+  padding: 14px 32px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--hot-red);
+  box-shadow: 0 0 20px rgba(230, 36, 41, 0.4);
+  transition: all 0.3s;
+}
+.btn-primary:hover {
+  background: var(--hot-red);
+  box-shadow: 0 0 40px rgba(230, 36, 41, 0.6);
+  transform: translateY(-2px);
+}
+.btn-secondary {
+  display: inline-block;
+  background: transparent;
+  color: var(--silver);
+  padding: 14px 32px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--steel-light);
+  transition: all 0.3s;
+}
+.btn-secondary:hover {
+  border-color: var(--hud-cyan);
+  color: var(--hud-cyan);
+  background: rgba(0, 200, 255, 0.05);
+  transform: translateY(-2px);
+}
+
+/* TIMER */
+.cd-wrap {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.cd-label {
+  font-family: var(--hud-font);
+  font-size: 0.6rem;
+  color: var(--muted);
+  letter-spacing: 4px;
+  margin-bottom: 1rem;
+}
+.countdown {
+  display: flex;
+  gap: 1.5rem;
+}
+.cd-unit {
+  text-align: center;
+  background: rgba(11, 15, 20, 0.7);
+  border: 1px solid var(--steel-light);
+  padding: 16px 20px;
+  min-width: 90px;
+  position: relative;
+  overflow: hidden;
+}
+.cd-unit::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--energy-red);
+  box-shadow: 0 0 10px var(--energy-red);
+}
+.cd-n {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--white);
+  display: block;
+  line-height: 1;
+}
+.cd-l {
+  font-family: var(--hud-font);
+  font-size: 0.5rem;
+  color: var(--hud-blue);
+  letter-spacing: 3px;
+  margin-top: 8px;
+  display: block;
+}
+
+/* METRICS SECTION */
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  padding: 4rem 0;
+  border-top: 1px solid var(--steel);
+  border-bottom: 1px solid var(--steel);
+  background: rgba(11, 15, 20, 0.4);
+}
+.metric-box {
+  text-align: center;
+  position: relative;
+}
+.metric-box:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: -1rem;
+  top: 20%;
+  height: 60%;
+  width: 1px;
+  background: var(--steel-light);
+}
+.m-num {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--white);
+  text-shadow: 0 0 15px rgba(255,255,255,0.2);
+  display: block;
+}
+.m-lbl {
+  font-family: var(--hud-font);
+  font-size: 0.65rem;
+  color: var(--hud-cyan);
+  letter-spacing: 3px;
+  margin-top: 10px;
+  display: block;
+  text-transform: uppercase;
+}
+
+/* INFO SECTION */
+.info-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+  margin-top: 5rem;
+}
+.info-content .sec-desc {
+  font-size: 1.1rem;
+  color: var(--silver);
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+.info-visual {
+  position: relative;
+  aspect-ratio: 4/3;
+  border: 1px solid var(--steel-light);
+  overflow: hidden;
+}
+.info-visual img {
+  width: 100%; height: 100%; object-fit: cover;
+  filter: grayscale(80%) contrast(1.2);
+  transition: filter 0.5s;
+}
+.info-visual:hover img {
+  filter: grayscale(20%) contrast(1.1);
+}
+.info-visual::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent, rgba(0,0,0,0.8));
+  pointer-events: none;
+}
+
+@media(max-width: 900px) {
+  .metrics-grid { grid-template-columns: 1fr 1fr; gap: 3rem; }
+  .metric-box:nth-child(2)::after { display: none; }
+  .info-layout { grid-template-columns: 1fr; gap: 2.5rem; }
+}
+@media(max-width: 500px) {
+  .countdown { flex-wrap: wrap; justify-content: center; }
+  .metrics-grid { grid-template-columns: 1fr; }
+  .metric-box::after { display: none; }
+}
+</style>
+</head>
+<body>
+<!-- SYSTEM BOOT PRELOADER -->
+<div id="sys-boot">
+  <div class="boot-log">
+    SYSTEM // VYOM COMMAND<br>
+    INITIALIZING PROTOCOLS...<br>
+    NEURAL INTERFACE: ONLINE<br>
+    EVENT DATABASE: SECURE
+  </div>
+  <div class="boot-progress-wrap">
+    <div class="boot-progress-bar" id="boot-bar"></div>
+  </div>
+  <div class="boot-title" id="boot-title">SYSTEM READY</div>
+</div>
+
+<div class="bg-cinematic"></div>
+<div class="bg-grid"></div>
+<div class="bg-scanlines"></div>
+
+<!-- MOBILE COMMAND MENU -->
+<div id="cmd-menu">
+  <a href="index.html" class="active">01 HOME</a>
+  <a href="events.html">02 EVENTS</a>
+  <a href="gallery.html">03 GALLERY</a>
+  <a href="sponsors.html">04 SPONSORS</a>
+  <a href="brochure.html">05 DOSSIER</a>
+  <a href="events.html" style="color:var(--energy-red); margin-top:2rem;">[ REGISTER ]</a>
+</div>
+
+<!-- NAVBAR HUD -->
+<nav id="hud-navbar">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-brand-title">VYOM</span>
+    <span class="nav-brand-sub">SYS // 2026</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Home</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="gallery.html">Archive</a></li>
+    <li><a href="sponsors.html">Allies</a></li>
+    <li><a href="brochure.html">Dossier</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="sys-indicator">
+      <div class="sys-dot"></div>
+      SYSTEM ONLINE
+    </div>
+    <a href="events.html" class="btn-register">[ REGISTER ]</a>
+    <button class="hamburger" id="btn-hamburger">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO SECTION -->
+<section id="hero">
+  <canvas id="vyom-particles"></canvas>
+  <div class="hero-bg"></div>
+  <div class="wrap reveal" style="z-index: 1;">
+    <div class="hero-sys-status">
+      <div class="sys-dot"></div>
+      STATUS // ACTIVATED
+    </div>
+    <h1 class="hero-title">VYOM</h1>
+    <div class="hero-subtitle">2 0 2 6</div>
+    <p class="hero-msg">The ultimate technology and cultural command center. The next event has been initiated.</p>
+    
+    <div class="hero-actions">
+      <a href="events.html" class="btn-primary">Enter Vyom</a>
+      <a href="events.html" class="btn-secondary">Explore Missions</a>
+    </div>
+
+    <div class="cd-wrap">
+      <div class="cd-label">EVENT ACTIVATION COUNTDOWN</div>
+      <div class="countdown">
+        <div class="cd-unit"><div class="hud-corner tl"></div><div class="hud-corner br"></div><span class="cd-n" id="cd-d">--</span><span class="cd-l">DAYS</span></div>
+        <div class="cd-unit"><div class="hud-corner tl"></div><div class="hud-corner br"></div><span class="cd-n" id="cd-h">--</span><span class="cd-l">HRS</span></div>
+        <div class="cd-unit"><div class="hud-corner tl"></div><div class="hud-corner br"></div><span class="cd-n" id="cd-m">--</span><span class="cd-l">MIN</span></div>
+        <div class="cd-unit"><div class="hud-corner tl"></div><div class="hud-corner br"></div><span class="cd-n" id="cd-s">--</span><span class="cd-l">SEC</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METRICS -->
+<section>
+  <div class="wrap">
+    <div class="metrics-grid reveal">
+      <div class="metric-box"><span class="m-num">60+</span><span class="m-lbl">Missions</span></div>
+      <div class="metric-box"><span class="m-num">6</span><span class="m-lbl">Active Days</span></div>
+      <div class="metric-box"><span class="m-num">8K+</span><span class="m-lbl">Operatives</span></div>
+      <div class="metric-box"><span class="m-num">1</span><span class="m-lbl">Champion</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT / INFO -->
+<section>
+  <div class="wrap">
+    <div class="info-layout">
+      <div class="info-content reveal">
+        <div class="section-label">SYSTEM LOG // MODULE 01</div>
+        <h2 class="cinematic-title">WHAT IS <span>VYOM?</span></h2>
+        <p class="sec-desc">VYOM '26 is the annual flagship fest of Rungta University — a high-energy arena where innovation, talent, and raw competition collide.</p>
+        <p class="sec-desc">Inspired by massive cinematic universes, the campus transforms into an operations center where participants must outthink, outperform, and outlast across 6 electrifying days.</p>
+        <a href="events.html" class="btn-secondary" style="margin-top: 1rem;">Access Event Database</a>
+      </div>
+      <div class="info-visual reveal">
+        <div class="hud-corner tl"></div><div class="hud-corner tr"></div><div class="hud-corner bl"></div><div class="hud-corner br"></div>
+        <img src="https://i.ibb.co/vx97T1ZB/White-Modern-Mothers-Day-Presentation-43.jpg" alt="Rungta Campus Command" loading="lazy">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="cmd-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="f-brand">VYOM 2026</div>
+      <div class="f-sys-status">SYSTEM: ONLINE // 25-29 MAR</div>
+      <p style="font-size:0.85rem; color:var(--muted); margin-top:1rem; line-height:1.6;">The ultimate technology and cultural command center of Rungta University.</p>
+    </div>
+    <div class="f-col">
+      <h4>SYSTEM LINKS</h4>
+      <ul>
+        <li><a href="index.html">Home Terminal</a></li>
+        <li><a href="events.html">Event Database</a></li>
+        <li><a href="gallery.html">Visual Archive</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>RESOURCES</h4>
+      <ul>
+        <li><a href="sponsors.html">Allies & Partners</a></li>
+        <li><a href="brochure.html">Official Dossier</a></li>
+        <li><a href="https://rungta.campusmall.in/" target="_blank">Merchandise</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>COMMUNICATIONS</h4>
+      <ul>
+        <li><a href="mailto:vyom.s@rungta.ac.in">vyom.s@rungta.ac.in</a></li>
+        <li><a href="tel:7665171706">COMMS-1: 7665171706</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="f-bottom">
+    <span>© 2026 RUNGTA UNIVERSITY. END TRANSMISSION.</span>
+    <span>[ ENCRYPTED CHANNEL ]</span>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/cursor.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/particles.js"></script>
+<script>
+// Countdown Logic
+function updateCD(){
+  const target = new Date('2026-03-25T09:00:00');
+  const now = new Date();
+  const d = target - now;
+  if(d <= 0){
+      ['d','h','m','s'].forEach(k => document.getElementById('cd-'+k).textContent='00');
+      return;
+  }
+  document.getElementById('cd-d').textContent = String(Math.floor(d/86400000)).padStart(2,'0');
+  document.getElementById('cd-h').textContent = String(Math.floor(d%86400000/3600000)).padStart(2,'0');
+  document.getElementById('cd-m').textContent = String(Math.floor(d%3600000/60000)).padStart(2,'0');
+  document.getElementById('cd-s').textContent = String(Math.floor(d%60000/1000)).padStart(2,'0');
+}
+updateCD();
+setInterval(updateCD, 1000);
+</script>
+</body>
+</html>

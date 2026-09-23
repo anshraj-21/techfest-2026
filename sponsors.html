@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ALLIES & PARTNERS // VYOM 2026</title>
+<link rel="icon" type="image/png" href="https://i.ibb.co/TD3bmT7h/Untitled-design.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="shared.css">
+<style>
+/* Specific overrides for sponsors.html */
+.page-header {
+  padding: 150px 3rem 4rem;
+  max-width: 1300px;
+  margin: 0 auto;
+  border-bottom: 1px solid var(--steel);
+}
+.tier-label {
+  font-family: var(--hud-font);
+  font-size: 0.65rem;
+  color: var(--hud-cyan);
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  margin: 4rem 0 2rem;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.tier-label::before, .tier-label::after {
+  content: ""; flex: 1; height: 1px; background: var(--steel);
+}
+.tier-label.title-sp { color: var(--arc-gold); }
+
+.sponsors-tier {
+  display: grid;
+  gap: 2rem;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 3rem;
+}
+.sponsors-tier.title-sp { grid-template-columns: 1fr; }
+.sponsors-tier.platinum { grid-template-columns: repeat(2, 1fr); }
+.sponsors-tier.gold { grid-template-columns: repeat(3, 1fr); }
+.sponsors-tier.silver { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
+
+.sp-card {
+  background: rgba(11, 15, 20, 0.6);
+  border: 1px solid var(--steel-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 15px;
+  padding: 2.5rem;
+  transition: all 0.4s ease;
+  position: relative;
+  overflow: hidden;
+  height: 220px;
+  text-align: center;
+  cursor: none;
+}
+.sp-card.silver-card { height: 160px; padding: 1.5rem; }
+
+.sp-card:hover {
+  border-color: var(--hud-blue);
+  background: var(--gunmetal);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0, 200, 255, 0.1);
+}
+
+.sp-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(0, 200, 255, 0.05), transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+.sp-card:hover::before { opacity: 1; }
+
+.sp-sym {
+  font-size: 2.5rem;
+  color: var(--steel);
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 900;
+  transition: color 0.4s;
+}
+.sp-card:hover .sp-sym { color: var(--hud-cyan); text-shadow: 0 0 15px rgba(0,200,255,0.4); }
+
+.sp-name {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.8rem;
+  color: var(--silver);
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  transition: color 0.4s;
+}
+.sp-card:hover .sp-name { color: var(--white); }
+
+.sp-type {
+  font-size: 0.75rem;
+  color: var(--muted);
+  letter-spacing: 2px;
+  font-family: var(--hud-font);
+  transition: color 0.4s;
+}
+.sp-card:hover .sp-type { color: var(--hud-blue); }
+
+.sp-card.title-big {
+  height: 300px;
+  border-color: rgba(214, 168, 79, 0.3); /* arc-gold */
+}
+.sp-card.title-big:hover {
+  border-color: var(--arc-gold);
+  box-shadow: 0 10px 40px rgba(214, 168, 79, 0.15);
+}
+.sp-card.title-big .sp-sym { font-size: 4rem; }
+.sp-card.title-big:hover .sp-sym { color: var(--arc-gold); text-shadow: 0 0 20px rgba(214, 168, 79, 0.4); }
+.sp-card.title-big .sp-type { color: var(--arc-gold); }
+
+/* BECOME ALLY */
+.become-sp {
+  background: rgba(11, 15, 20, 0.8);
+  border: 1px solid var(--steel);
+  padding: 5rem 3rem;
+  text-align: center;
+  margin: 6rem auto;
+  max-width: 1000px;
+  position: relative;
+  overflow: hidden;
+}
+.become-sp::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at center, rgba(230, 36, 41, 0.05) 0%, transparent 70%);
+}
+.become-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: var(--white);
+  margin-bottom: 1.5rem;
+  letter-spacing: 4px;
+}
+.become-title span { color: var(--energy-red); }
+.become-desc {
+  font-size: 1.1rem;
+  color: var(--silver);
+  max-width: 600px;
+  margin: 0 auto 3rem;
+  line-height: 1.8;
+}
+.become-benefits {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+  margin-bottom: 3.5rem;
+  text-align: left;
+}
+.benefit-item {
+  background: rgba(0,0,0,0.5);
+  border: 1px solid var(--steel-light);
+  padding: 1.5rem;
+  position: relative;
+}
+.benefit-item::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; width: 20px; height: 1px;
+  background: var(--energy-red);
+}
+.benefit-icon {
+  font-family: var(--hud-font);
+  font-size: 1.2rem;
+  color: var(--hud-cyan);
+  margin-bottom: 12px;
+  display: block;
+}
+.benefit-title {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.75rem;
+  color: var(--white);
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+.benefit-text {
+  font-size: 0.85rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+.btn-primary {
+  display: inline-block;
+  background: var(--energy-red);
+  color: var(--white);
+  padding: 14px 32px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--hot-red);
+  box-shadow: 0 0 20px rgba(230, 36, 41, 0.4);
+  transition: all 0.3s;
+}
+.btn-primary:hover {
+  background: var(--hot-red);
+  box-shadow: 0 0 40px rgba(230, 36, 41, 0.6);
+  transform: translateY(-2px);
+}
+
+@media(max-width: 900px) {
+  .page-header { padding: 120px 1.5rem 3rem; }
+  .sponsors-tier { padding: 0 1.5rem; }
+  .sponsors-tier.platinum, .sponsors-tier.gold, .sponsors-tier.silver { grid-template-columns: 1fr; }
+  .sp-card { height: auto; min-height: 180px; }
+  .become-sp { margin: 4rem 1.5rem; padding: 3rem 1.5rem; }
+}
+</style>
+</head>
+<body>
+
+<div class="bg-cinematic"></div>
+<div class="bg-grid"></div>
+<div class="bg-scanlines"></div>
+
+<!-- MOBILE COMMAND MENU -->
+<div id="cmd-menu">
+  <a href="index.html">01 HOME</a>
+  <a href="events.html">02 EVENTS</a>
+  <a href="gallery.html">03 GALLERY</a>
+  <a href="sponsors.html" class="active">04 SPONSORS</a>
+  <a href="brochure.html">05 DOSSIER</a>
+</div>
+
+<!-- NAVBAR HUD -->
+<nav id="hud-navbar">
+  <a href="index.html" class="nav-brand">
+    <span class="nav-brand-title">VYOM</span>
+    <span class="nav-brand-sub">SYS // 2026</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="gallery.html">Archive</a></li>
+    <li><a href="sponsors.html" class="active">Allies</a></li>
+    <li><a href="brochure.html">Dossier</a></li>
+  </ul>
+  <div class="nav-right">
+    <div class="sys-indicator">
+      <div class="sys-dot"></div>
+      SYSTEM ONLINE
+    </div>
+    <button class="hamburger" id="btn-hamburger">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+
+<header class="page-header reveal">
+  <div class="section-label">SYSTEM LOG // MODULE 04</div>
+  <h1 class="cinematic-title">ALLIES & <span>PARTNERS</span></h1>
+  <p style="color:var(--silver); font-size:1.1rem; letter-spacing:1px; max-width:600px;">VYOM '26 is powered by visionary organizations supporting innovation and raw talent.</p>
+</header>
+
+<main>
+  <div class="tier-label title-sp" style="max-width:1300px; margin:4rem auto 2rem; padding:0 3rem;">TITLE PARTNER</div>
+  <div class="sponsors-tier title-sp reveal">
+    <div class="sp-card title-big">
+      <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
+      <div class="hud-corner bl"></div><div class="hud-corner br"></div>
+      <span class="sp-sym">◆</span>
+      <div class="sp-name">Title Partner</div>
+      <div class="sp-type">Your Brand Here</div>
+    </div>
+  </div>
+
+  <div class="tier-label" style="max-width:1300px; margin:4rem auto 2rem; padding:0 3rem;">POWERED BY // PLATINUM</div>
+  <div class="sponsors-tier platinum reveal">
+    <div class="sp-card">
+      <div class="hud-corner tl"></div><div class="hud-corner br"></div>
+      <span class="sp-sym">●</span><div class="sp-name">Platinum Partner</div><div class="sp-type">Your Brand Here</div>
+    </div>
+    <div class="sp-card">
+      <div class="hud-corner tl"></div><div class="hud-corner br"></div>
+      <span class="sp-sym">■</span><div class="sp-name">Platinum Partner</div><div class="sp-type">Your Brand Here</div>
+    </div>
+  </div>
+
+  <div class="tier-label" style="max-width:1300px; margin:4rem auto 2rem; padding:0 3rem;">TECH & MEDIA // GOLD</div>
+  <div class="sponsors-tier gold reveal">
+    <div class="sp-card">
+      <span class="sp-sym">▲</span><div class="sp-name">Gold Partner</div><div class="sp-type">Your Brand</div>
+    </div>
+    <div class="sp-card">
+      <span class="sp-sym">▼</span><div class="sp-name">Gold Partner</div><div class="sp-type">Your Brand</div>
+    </div>
+    <div class="sp-card">
+      <span class="sp-sym">◆</span><div class="sp-name">Gold Partner</div><div class="sp-type">Your Brand</div>
+    </div>
+  </div>
+
+  <div class="tier-label" style="max-width:1300px; margin:4rem auto 2rem; padding:0 3rem;">COMMUNITY // SILVER</div>
+  <div class="sponsors-tier silver reveal">
+    <div class="sp-card silver-card"><span class="sp-sym">●</span><div class="sp-name">Silver Ally</div></div>
+    <div class="sp-card silver-card"><span class="sp-sym">■</span><div class="sp-name">Silver Ally</div></div>
+    <div class="sp-card silver-card"><span class="sp-sym">▲</span><div class="sp-name">Silver Ally</div></div>
+    <div class="sp-card silver-card"><span class="sp-sym">◆</span><div class="sp-name">Silver Ally</div></div>
+  </div>
+
+  <div class="become-sp reveal">
+    <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
+    <div class="hud-corner bl"></div><div class="hud-corner br"></div>
+    <h2 class="become-title">INITIATE <span>ALLIANCE</span></h2>
+    <p class="become-desc">Integrate your brand into the VYOM 2026 network. Gain direct access to 5,000+ top-tier students, innovators, and professionals.</p>
+    <div class="become-benefits">
+      <div class="benefit-item">
+        <span class="benefit-icon">[ VISIBILITY ]</span>
+        <div class="benefit-title">BRAND PRESENCE</div>
+        <div class="benefit-text">Strategic logo placement across all digital interfaces, campus screens, and physical installations.</div>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-icon">[ NETWORK ]</span>
+        <div class="benefit-title">DIRECT ACCESS</div>
+        <div class="benefit-text">Unrestricted engagement with 5,000+ engineering and management operatives.</div>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-icon">[ DEPLOYMENT ]</span>
+        <div class="benefit-title">CAMPUS ACTIVATION</div>
+        <div class="benefit-text">Establish recruitment channels, interactive workshops, and live product demos.</div>
+      </div>
+      <div class="benefit-item">
+        <span class="benefit-icon">[ BROADCAST ]</span>
+        <div class="benefit-title">MEDIA REACH</div>
+        <div class="benefit-text">Extensive coverage across the VYOM digital network, streams, and social intelligence feeds.</div>
+      </div>
+    </div>
+    <a href="mailto:vyom.s@rungta.ac.in?subject=Alliance Inquiry — VYOM 2026" class="btn-primary">Establish Connection</a>
+  </div>
+</main>
+
+<!-- FOOTER -->
+<footer class="cmd-footer">
+  <div class="footer-grid">
+    <div>
+      <div class="f-brand">VYOM 2026</div>
+      <div class="f-sys-status">SYSTEM: ONLINE // 25-29 MAR</div>
+    </div>
+    <div class="f-col">
+      <h4>SYSTEM LINKS</h4>
+      <ul>
+        <li><a href="index.html">Home Terminal</a></li>
+        <li><a href="events.html">Event Database</a></li>
+        <li><a href="gallery.html">Visual Archive</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>RESOURCES</h4>
+      <ul>
+        <li><a href="sponsors.html">Allies & Partners</a></li>
+        <li><a href="brochure.html">Official Dossier</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="f-bottom">
+    <span>© 2026 RUNGTA UNIVERSITY. END TRANSMISSION.</span>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script src="js/cursor.js"></script>
+<script src="js/audio.js"></script>
+</body>
+</html>
