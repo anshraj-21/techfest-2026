@@ -38,7 +38,7 @@ function openLightbox(index) {
     
     if (!lb || !img || !PHOTOS[index]) return;
     
-    if(window.Vidyut_AUDIO) window.Vidyut_AUDIO.play('menu');
+    if(window.VYOM_AUDIO) window.VYOM_AUDIO.playSFX('mission-open');
     
     const photo = PHOTOS[index];
     img.src = photo.src;
@@ -60,7 +60,7 @@ function nextPhoto(e) {
     if(e) e.stopPropagation();
     if (currentPhotoIndex < PHOTOS.length - 1) {
         openLightbox(currentPhotoIndex + 1);
-        if(window.Vidyut_AUDIO) window.Vidyut_AUDIO.play('hover');
+        if(window.VYOM_AUDIO) window.VYOM_AUDIO.playSFX('hover');
     }
 }
 
@@ -68,7 +68,7 @@ function prevPhoto(e) {
     if(e) e.stopPropagation();
     if (currentPhotoIndex > 0) {
         openLightbox(currentPhotoIndex - 1);
-        if(window.Vidyut_AUDIO) window.Vidyut_AUDIO.play('hover');
+        if(window.VYOM_AUDIO) window.VYOM_AUDIO.playSFX('hover');
     }
 }
 

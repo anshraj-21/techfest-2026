@@ -19,27 +19,33 @@
 
 .archive-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  grid-auto-rows: 250px;
-  grid-auto-flow: dense;
-  gap: 1.5rem;
-  max-width: 1300px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 4rem;
+  max-width: 1400px;
   margin: 4rem auto;
   padding: 0 3rem;
+  align-items: center;
 }
 
 .archive-item {
   position: relative;
   overflow: hidden;
-  border: 1px solid var(--steel);
+  border: 1px solid rgba(255,255,255,0.05);
   cursor: none;
-  animation: slideUp 0.6s backwards;
-  background: var(--gunmetal);
+  background: var(--void);
+  transition: all 0.5s ease;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
-@keyframes slideUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
 
-.archive-item.large { grid-column: span 2; grid-row: span 2; }
+.archive-item.large { grid-column: span 2; transform: scale(1.05); z-index: 2; margin: 2rem 0; }
 .archive-item.tall { grid-row: span 2; }
+
+.archive-item:hover {
+  border-color: var(--steel);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+  transform: translateY(-10px) scale(1.02);
+  z-index: 10;
+}
 
 .archive-item img {
   width: 100%; height: 100%; object-fit: cover;
@@ -204,11 +210,11 @@
 
 <!-- MOBILE COMMAND MENU -->
 <div id="cmd-menu">
-  <a href="index.html">01 HOME</a>
-  <a href="events.html">02 EVENTS</a>
-  <a href="gallery.html" class="active">03 GALLERY</a>
-  <a href="sponsors.html">04 SPONSORS</a>
-  <a href="brochure.html">05 DOSSIER</a>
+  <a href="index.html">01 THE WORLDS</a>
+  <a href="events.html">02 MISSION FILES</a>
+  <a href="gallery.html" class="active">03 THE ARCHIVE</a>
+  <a href="sponsors.html">04 THE ALLIES</a>
+  <a href="brochure.html">05 THE DOSSIER</a>
 </div>
 
 <!-- NAVBAR HUD -->
@@ -218,8 +224,8 @@
     <span class="nav-brand-sub">SYS // 2026</span>
   </a>
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="events.html">Events</a></li>
+    <li><a href="index.html">The Worlds</a></li>
+    <li><a href="events.html">Missions</a></li>
     <li><a href="gallery.html" class="active">Archive</a></li>
     <li><a href="sponsors.html">Allies</a></li>
     <li><a href="brochure.html">Dossier</a></li>
@@ -295,5 +301,5 @@
 <script src="js/audio.js"></script>
 <script src="js/galleryData.js"></script>
 <script src="js/galleryApp.js"></script>
-</body>
+<script src="js/scene-transition.js"></script></body>
 </html>

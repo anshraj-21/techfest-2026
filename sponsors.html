@@ -45,56 +45,69 @@
 .sponsors-tier.silver { grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); }
 
 .sp-card {
-  background: rgba(11, 15, 20, 0.6);
-  border: 1px solid var(--steel-light);
+  background: linear-gradient(135deg, rgba(30, 35, 40, 0.8), rgba(10, 12, 15, 0.9));
+  border: 1px solid rgba(255,255,255,0.05);
+  border-top: 2px solid var(--steel);
+  border-bottom: 2px solid var(--steel-dark);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
   gap: 15px;
   padding: 2.5rem;
-  transition: all 0.4s ease;
+  transition: all 0.5s cubic-bezier(0.2, 1, 0.3, 1);
   position: relative;
   overflow: hidden;
-  height: 220px;
+  height: 250px;
   text-align: center;
   cursor: none;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.1);
 }
-.sp-card.silver-card { height: 160px; padding: 1.5rem; }
+.sp-card.silver-card { height: 180px; padding: 1.5rem; }
 
 .sp-card:hover {
   border-color: var(--hud-blue);
-  background: var(--gunmetal);
-  transform: translateY(-5px);
-  box-shadow: 0 10px 30px rgba(0, 200, 255, 0.1);
+  border-top-color: var(--hud-cyan);
+  background: linear-gradient(135deg, rgba(40, 45, 55, 0.9), rgba(15, 20, 25, 0.9));
+  transform: translateY(-10px) scale(1.02);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9), 0 0 20px rgba(0, 200, 255, 0.2);
+  z-index: 10;
 }
 
 .sp-card::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, rgba(0, 200, 255, 0.05), transparent);
-  opacity: 0;
-  transition: opacity 0.4s;
+  background: repeating-linear-gradient(45deg, transparent, transparent 10px, rgba(0,0,0,0.2) 10px, rgba(0,0,0,0.2) 20px);
+  opacity: 0.5;
+  pointer-events: none;
 }
-.sp-card:hover::before { opacity: 1; }
+.sp-card::after {
+  content: ""; position: absolute; inset: 0;
+  background: radial-gradient(circle at center, rgba(0, 200, 255, 0.1), transparent);
+  opacity: 0; transition: opacity 0.5s;
+}
+.sp-card:hover::after { opacity: 1; }
 
 .sp-sym {
-  font-size: 2.5rem;
-  color: var(--steel);
+  font-size: 3.5rem;
+  color: var(--silver);
   font-family: 'Orbitron', sans-serif;
   font-weight: 900;
   transition: color 0.4s;
+  position: relative; z-index: 2;
+  text-shadow: 0 5px 15px rgba(0,0,0,0.8);
 }
-.sp-card:hover .sp-sym { color: var(--hud-cyan); text-shadow: 0 0 15px rgba(0,200,255,0.4); }
+.sp-card:hover .sp-sym { color: var(--white); text-shadow: 0 0 20px rgba(0,200,255,0.6); }
 
 .sp-name {
   font-family: 'Orbitron', sans-serif;
-  font-size: 0.8rem;
+  font-size: 0.9rem;
   color: var(--silver);
-  letter-spacing: 3px;
+  letter-spacing: 4px;
   text-transform: uppercase;
   transition: color 0.4s;
+  position: relative; z-index: 2;
 }
 .sp-card:hover .sp-name { color: var(--white); }
 
@@ -104,12 +117,13 @@
   letter-spacing: 2px;
   font-family: var(--hud-font);
   transition: color 0.4s;
+  position: relative; z-index: 2;
 }
-.sp-card:hover .sp-type { color: var(--hud-blue); }
+.sp-card:hover .sp-type { color: var(--hud-cyan); }
 
 .sp-card.title-big {
-  height: 300px;
-  border-color: rgba(214, 168, 79, 0.3); /* arc-gold */
+  height: 350px;
+  border-top-color: var(--arc-gold);
 }
 .sp-card.title-big:hover {
   border-color: var(--arc-gold);
@@ -228,11 +242,11 @@
 
 <!-- MOBILE COMMAND MENU -->
 <div id="cmd-menu">
-  <a href="index.html">01 HOME</a>
-  <a href="events.html">02 EVENTS</a>
-  <a href="gallery.html">03 GALLERY</a>
-  <a href="sponsors.html" class="active">04 SPONSORS</a>
-  <a href="brochure.html">05 DOSSIER</a>
+  <a href="index.html">01 THE WORLDS</a>
+  <a href="events.html">02 MISSION FILES</a>
+  <a href="gallery.html">03 THE ARCHIVE</a>
+  <a href="sponsors.html" class="active">04 THE ALLIES</a>
+  <a href="brochure.html">05 THE DOSSIER</a>
 </div>
 
 <!-- NAVBAR HUD -->
@@ -242,8 +256,8 @@
     <span class="nav-brand-sub">SYS // 2026</span>
   </a>
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="events.html">Events</a></li>
+    <li><a href="index.html">The Worlds</a></li>
+    <li><a href="events.html">Missions</a></li>
     <li><a href="gallery.html">Archive</a></li>
     <li><a href="sponsors.html" class="active">Allies</a></li>
     <li><a href="brochure.html">Dossier</a></li>
@@ -266,48 +280,48 @@
 </header>
 
 <main>
-  <div class="tier-label title-sp" style="max-width:1300px; margin:4rem auto 2rem; padding:0 3rem;">TITLE PARTNER</div>
+  <div class="tier-label title-sp" style="max-width:1300px; margin:4rem auto 2rem; padding:0 3rem;">GLOBAL MEGA-CORPORATION</div>
   <div class="sponsors-tier title-sp reveal">
     <div class="sp-card title-big">
       <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
       <div class="hud-corner bl"></div><div class="hud-corner br"></div>
       <span class="sp-sym">◆</span>
-      <div class="sp-name">Title Partner</div>
-      <div class="sp-type">Your Brand Here</div>
+      <div class="sp-name">Apex Global</div>
+      <div class="sp-type">TITLE PARTNER</div>
     </div>
   </div>
 
-  <div class="tier-label" style="max-width:1300px; margin:4rem auto 2rem; padding:0 3rem;">POWERED BY // PLATINUM</div>
+  <div class="tier-label" style="max-width:1300px; margin:4rem auto 2rem; padding:0 3rem;">VANGUARD TIER</div>
   <div class="sponsors-tier platinum reveal">
     <div class="sp-card">
       <div class="hud-corner tl"></div><div class="hud-corner br"></div>
-      <span class="sp-sym">●</span><div class="sp-name">Platinum Partner</div><div class="sp-type">Your Brand Here</div>
+      <span class="sp-sym">●</span><div class="sp-name">CyberDyne</div><div class="sp-type">POWERED BY</div>
     </div>
     <div class="sp-card">
       <div class="hud-corner tl"></div><div class="hud-corner br"></div>
-      <span class="sp-sym">■</span><div class="sp-name">Platinum Partner</div><div class="sp-type">Your Brand Here</div>
+      <span class="sp-sym">■</span><div class="sp-name">Stark Industries</div><div class="sp-type">POWERED BY</div>
     </div>
   </div>
 
-  <div class="tier-label" style="max-width:1300px; margin:4rem auto 2rem; padding:0 3rem;">TECH & MEDIA // GOLD</div>
+  <div class="tier-label" style="max-width:1300px; margin:4rem auto 2rem; padding:0 3rem;">SENTINEL TIER</div>
   <div class="sponsors-tier gold reveal">
     <div class="sp-card">
-      <span class="sp-sym">▲</span><div class="sp-name">Gold Partner</div><div class="sp-type">Your Brand</div>
+      <span class="sp-sym">▲</span><div class="sp-name">Weyland Corp</div><div class="sp-type">TECH PARTNER</div>
     </div>
     <div class="sp-card">
-      <span class="sp-sym">▼</span><div class="sp-name">Gold Partner</div><div class="sp-type">Your Brand</div>
+      <span class="sp-sym">▼</span><div class="sp-name">Oscorp</div><div class="sp-type">INNOVATION PARTNER</div>
     </div>
     <div class="sp-card">
-      <span class="sp-sym">◆</span><div class="sp-name">Gold Partner</div><div class="sp-type">Your Brand</div>
+      <span class="sp-sym">◆</span><div class="sp-name">Tyrell</div><div class="sp-type">MEDIA PARTNER</div>
     </div>
   </div>
 
-  <div class="tier-label" style="max-width:1300px; margin:4rem auto 2rem; padding:0 3rem;">COMMUNITY // SILVER</div>
+  <div class="tier-label" style="max-width:1300px; margin:4rem auto 2rem; padding:0 3rem;">OPERATIVE TIER</div>
   <div class="sponsors-tier silver reveal">
-    <div class="sp-card silver-card"><span class="sp-sym">●</span><div class="sp-name">Silver Ally</div></div>
-    <div class="sp-card silver-card"><span class="sp-sym">■</span><div class="sp-name">Silver Ally</div></div>
-    <div class="sp-card silver-card"><span class="sp-sym">▲</span><div class="sp-name">Silver Ally</div></div>
-    <div class="sp-card silver-card"><span class="sp-sym">◆</span><div class="sp-name">Silver Ally</div></div>
+    <div class="sp-card silver-card"><span class="sp-sym">●</span><div class="sp-name">LexCorp</div></div>
+    <div class="sp-card silver-card"><span class="sp-sym">■</span><div class="sp-name">Pym Tech</div></div>
+    <div class="sp-card silver-card"><span class="sp-sym">▲</span><div class="sp-name">Wayne Ent</div></div>
+    <div class="sp-card silver-card"><span class="sp-sym">◆</span><div class="sp-name">Umbrella</div></div>
   </div>
 
   <div class="become-sp reveal">
@@ -372,5 +386,5 @@
 <script src="js/main.js"></script>
 <script src="js/cursor.js"></script>
 <script src="js/audio.js"></script>
-</body>
+<script src="js/scene-transition.js"></script></body>
 </html>

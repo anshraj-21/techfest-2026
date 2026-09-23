@@ -204,6 +204,50 @@
   letter-spacing: 2px;
 }
 
+/* REACTOR COUNTDOWN */
+.reactor-container {
+  display: flex;
+  justify-content: center;
+  margin: 4rem 0;
+}
+.reactor-core {
+  position: relative;
+  width: 300px; height: 300px;
+  border-radius: 50%;
+  border: 4px solid var(--steel);
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 50px rgba(0, 200, 255, 0.1), inset 0 0 30px rgba(0, 200, 255, 0.1);
+  animation: pulseCore 4s infinite alternate;
+}
+@keyframes pulseCore {
+  from { box-shadow: 0 0 50px rgba(0, 200, 255, 0.1), inset 0 0 30px rgba(0, 200, 255, 0.1); border-color: var(--steel); }
+  to { box-shadow: 0 0 80px rgba(0, 200, 255, 0.3), inset 0 0 50px rgba(0, 200, 255, 0.3); border-color: var(--hud-cyan); }
+}
+.reactor-ring {
+  position: absolute; inset: -20px;
+  border: 2px dashed var(--hud-cyan); border-radius: 50%;
+  animation: spin 30s linear infinite; opacity: 0.5;
+}
+.reactor-ring-2 {
+  position: absolute; inset: 10px;
+  border: 1px dashed var(--arc-gold); border-radius: 50%;
+  animation: spin reverse 20s linear infinite; opacity: 0.3;
+}
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+.countdown {
+  display: flex; flex-direction: column; align-items: center;
+  position: relative; z-index: 2;
+}
+.cd-time {
+  font-family: var(--title-font); font-size: 4rem; color: var(--white);
+  line-height: 1; text-shadow: 0 0 20px rgba(0,200,255,0.5);
+}
+.cd-label {
+  font-family: var(--hud-font); font-size: 0.7rem; color: var(--hud-cyan);
+  letter-spacing: 5px; margin-top: 10px;
+}
+
 @media(max-width: 900px) {
   .page-header { padding: 120px 1.5rem 3rem; }
   .brochure-layout { grid-template-columns: 1fr; padding: 0 1.5rem; gap: 3rem; }
@@ -220,11 +264,11 @@
 
 <!-- MOBILE COMMAND MENU -->
 <div id="cmd-menu">
-  <a href="index.html">01 HOME</a>
-  <a href="events.html">02 EVENTS</a>
-  <a href="gallery.html">03 GALLERY</a>
-  <a href="sponsors.html">04 SPONSORS</a>
-  <a href="brochure.html" class="active">05 DOSSIER</a>
+  <a href="index.html">01 THE WORLDS</a>
+  <a href="events.html">02 MISSION FILES</a>
+  <a href="gallery.html">03 THE ARCHIVE</a>
+  <a href="sponsors.html">04 THE ALLIES</a>
+  <a href="brochure.html" class="active">05 THE DOSSIER</a>
 </div>
 
 <!-- NAVBAR HUD -->
@@ -234,8 +278,8 @@
     <span class="nav-brand-sub">SYS // 2026</span>
   </a>
   <ul class="nav-links">
-    <li><a href="index.html">Home</a></li>
-    <li><a href="events.html">Events</a></li>
+    <li><a href="index.html">The Worlds</a></li>
+    <li><a href="events.html">Missions</a></li>
     <li><a href="gallery.html">Archive</a></li>
     <li><a href="sponsors.html">Allies</a></li>
     <li><a href="brochure.html" class="active">Dossier</a></li>
@@ -291,6 +335,17 @@
     </div>
   </div>
 
+  <div class="reactor-container reveal">
+    <div class="reactor-core">
+      <div class="reactor-ring"></div>
+      <div class="reactor-ring-2"></div>
+      <div class="countdown">
+        <div class="cd-time" id="reactor-timer">00:00</div>
+        <div class="cd-label">HOURS // MINS</div>
+      </div>
+    </div>
+  </div>
+
   <div class="download-cta reveal">
     <div class="hud-corner tl"></div><div class="hud-corner tr"></div>
     <div class="hud-corner bl"></div><div class="hud-corner br"></div>
@@ -335,5 +390,35 @@
 <script src="js/main.js"></script>
 <script src="js/cursor.js"></script>
 <script src="js/audio.js"></script>
+<script src="js/scene-transition.js"></script>
+<script>
+  // Reactor Countdown Logic
+  document.addEventListener('DOMContentLoaded', () => {
+    const targetDate = new Date("March 25, 2026 00:00:00").getTime();
+    const timerDisplay = document.getElementById("reactor-timer");
+
+    const updateTimer = () => {
+      const now = new Date().getTime();
+      const distance = targetDate - now;
+
+      if (distance < 0) {
+        timerDisplay.textContent = "00:00";
+        return;
+      }
+
+      const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const mins = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+      const h = String((days * 24) + hours).padStart(2, '0');
+      const m = String(mins).padStart(2, '0');
+      
+      timerDisplay.textContent = `${h}:${m}`;
+    };
+
+    updateTimer();
+    setInterval(updateTimer, 60000); // update every minute
+  });
+</script>
 </body>
 </html>

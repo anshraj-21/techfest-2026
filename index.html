@@ -185,11 +185,11 @@
 
 <!-- MOBILE COMMAND MENU -->
 <div id="cmd-menu">
-  <a href="index.html" class="active">01 HOME</a>
-  <a href="events.html">02 EVENTS</a>
-  <a href="gallery.html">03 ARCHIVE</a>
-  <a href="sponsors.html">04 ALLIES</a>
-  <a href="brochure.html">05 DOSSIER</a>
+  <a href="index.html" class="active">01 THE WORLDS</a>
+  <a href="events.html">02 MISSION FILES</a>
+  <a href="gallery.html">03 THE ARCHIVE</a>
+  <a href="sponsors.html">04 THE ALLIES</a>
+  <a href="brochure.html">05 THE DOSSIER</a>
 </div>
 
 <!-- NAVBAR HUD -->
@@ -199,8 +199,8 @@
     <span class="nav-brand-sub">SYS // 2026</span>
   </a>
   <ul class="nav-links">
-    <li><a href="index.html" class="active">Home</a></li>
-    <li><a href="events.html">Events</a></li>
+    <li><a href="index.html" class="active">The Worlds</a></li>
+    <li><a href="events.html">Missions</a></li>
     <li><a href="gallery.html">Archive</a></li>
     <li><a href="sponsors.html">Allies</a></li>
     <li><a href="brochure.html">Dossier</a></li>
@@ -270,6 +270,116 @@
     </div>
   </section>
 
+  <!-- THE WORLDS SECTION -->
+  <style>
+    .worlds-container { position: relative; width: 100%; padding: 10rem 0; background: var(--void); }
+    .worlds-header { text-align: center; margin-bottom: 5rem; }
+    
+    .world-list { display: flex; flex-direction: column; gap: 0; }
+    .world-row {
+      position: relative; height: 60vh; min-height: 400px;
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden; cursor: none;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .world-row:last-child { border-bottom: 1px solid rgba(255,255,255,0.05); }
+    
+    .w-bg {
+      position: absolute; inset: 0;
+      background-size: cover; background-position: center;
+      filter: grayscale(100%) brightness(0.2);
+      transition: all 0.8s ease-out; z-index: 1;
+      transform: scale(1.1);
+    }
+    .world-row:hover .w-bg { filter: grayscale(0%) brightness(0.6); transform: scale(1); }
+    
+    .w-overlay {
+      position: absolute; inset: 0; z-index: 2;
+      background: linear-gradient(to bottom, transparent, var(--void) 95%);
+    }
+    
+    .w-content {
+      position: relative; z-index: 3; text-align: center;
+      pointer-events: none;
+    }
+    
+    .w-title {
+      font-family: var(--title-font); font-size: 5rem; font-weight: 900;
+      color: transparent; -webkit-text-stroke: 1px rgba(255,255,255,0.2);
+      letter-spacing: 15px; text-transform: uppercase;
+      transition: all 0.5s ease;
+    }
+    .world-row:hover .w-title {
+      color: var(--white); -webkit-text-stroke: 0;
+      text-shadow: 0 0 40px rgba(255,255,255,0.3);
+      letter-spacing: 20px;
+    }
+    .w-sub {
+      font-family: var(--hud-font); font-size: 0.8rem; color: var(--silver);
+      letter-spacing: 8px; opacity: 0; transform: translateY(20px);
+      transition: all 0.5s ease 0.1s;
+    }
+    .world-row:hover .w-sub { opacity: 1; transform: translateY(0); }
+  </style>
+
+  <section class="worlds-container reveal">
+    <div class="worlds-header">
+      <div class="section-label">SECTOR MAP</div>
+      <h2 class="cinematic-title">THE <span>WORLDS</span></h2>
+    </div>
+    
+    <div class="world-list">
+      <a href="events.html" class="world-row" data-scene="ambient-tech">
+        <div class="w-bg" style="background-image: url('C:/Users/ANSH RAJ/.gemini/antigravity-ide/brain/1df9a777-b6b4-4026-bcb2-1cdaa087af95/world_tech_1790149461492.jpg')"></div>
+        <div class="w-overlay"></div>
+        <div class="w-content">
+          <div class="w-title">Tech</div>
+          <div class="w-sub">HOLOGRAPHIC // SECTOR 01</div>
+        </div>
+      </a>
+      <a href="events.html" class="world-row" data-scene="ambient-command">
+        <div class="w-bg" style="background-image: url('C:/Users/ANSH RAJ/.gemini/antigravity-ide/brain/1df9a777-b6b4-4026-bcb2-1cdaa087af95/world_culture_1790149474555.jpg')"></div>
+        <div class="w-overlay"></div>
+        <div class="w-content">
+          <div class="w-title">Culture</div>
+          <div class="w-sub">THEATRICAL // SECTOR 02</div>
+        </div>
+      </a>
+      <a href="events.html" class="world-row" data-scene="ambient-threat">
+        <div class="w-bg" style="background-image: url('C:/Users/ANSH RAJ/.gemini/antigravity-ide/brain/1df9a777-b6b4-4026-bcb2-1cdaa087af95/world_sports_1790149490761.jpg')"></div>
+        <div class="w-overlay"></div>
+        <div class="w-content">
+          <div class="w-title">Sports</div>
+          <div class="w-sub">ARENA // SECTOR 03</div>
+        </div>
+      </a>
+      <a href="events.html" class="world-row" data-scene="ambient-tech">
+        <div class="w-bg" style="background-image: url('C:/Users/ANSH RAJ/.gemini/antigravity-ide/brain/1df9a777-b6b4-4026-bcb2-1cdaa087af95/world_esports_1790149503894.jpg')"></div>
+        <div class="w-overlay"></div>
+        <div class="w-content">
+          <div class="w-title">Esports</div>
+          <div class="w-sub">CYBER // SECTOR 04</div>
+        </div>
+      </a>
+      <a href="events.html" class="world-row" data-scene="ambient-command">
+        <div class="w-bg" style="background-image: url('C:/Users/ANSH RAJ/.gemini/antigravity-ide/brain/1df9a777-b6b4-4026-bcb2-1cdaa087af95/world_design_1790149540285.jpg')"></div>
+        <div class="w-overlay"></div>
+        <div class="w-content">
+          <div class="w-title">Design</div>
+          <div class="w-sub">MINIMAL // SECTOR 05</div>
+        </div>
+      </a>
+      <a href="events.html" class="world-row" data-scene="ambient-threat">
+        <div class="w-bg" style="background-image: url('C:/Users/ANSH RAJ/.gemini/antigravity-ide/brain/1df9a777-b6b4-4026-bcb2-1cdaa087af95/world_innovation_1790149580626.jpg')"></div>
+        <div class="w-overlay"></div>
+        <div class="w-content">
+          <div class="w-title">Innovation</div>
+          <div class="w-sub">REACTOR // SECTOR 06</div>
+        </div>
+      </a>
+    </div>
+  </section>
+
 </main>
 
 <footer class="cmd-footer">
@@ -329,5 +439,26 @@
 <script src="js/cursor.js"></script>
 <script src="js/audio.js"></script>
 <script src="js/particles.js"></script>
+<script src="js/scene-transition.js"></script>
+
+<script>
+  // Dynamic audio scene switching based on scroll intersection
+  document.addEventListener('DOMContentLoaded', () => {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting && window.VYOM_AUDIO) {
+          const scene = entry.target.getAttribute('data-scene');
+          if (scene) {
+            window.VYOM_AUDIO.setScene(scene);
+          }
+        }
+      });
+    }, { threshold: 0.6 });
+
+    document.querySelectorAll('.world-row').forEach(row => {
+      observer.observe(row);
+    });
+  });
+</script>
 </body>
 </html>

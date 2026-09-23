@@ -82,17 +82,42 @@ function getEventById(id) {
 function openDetails(id) {
     const ev = getEventById(id);
     if (!ev) return;
-    if(window.Vidyut_AUDIO) window.Vidyut_AUDIO.play('menu');
-    alert(`MISSION DOSSIER: ${ev.name}\n\n${ev.desc}\n\nVenue: ${ev.venue}`);
-    // Ideally this would be a full page view or another modal. For brevity, using an alert/prompt style or I could build a custom details view.
-    // The prompt requested a registration terminal specifically, we can use the same terminal for details.
+    
+    if(window.VYOM_AUDIO) window.VYOM_AUDIO.playSFX('mission-open');
+    
+    // Populate Cinematic Modal
+    document.getElementById('cm-id').textContent = `MISSION ID // VY-${ev.id.substring(0,6).toUpperCase()}`;
+    document.getElementById('cm-name').textContent = ev.name;
+    document.getElementById('cm-desc').textContent = ev.desc;
+    document.getElementById('cm-venue').textContent = ev.venue || 'TBA';
+    document.getElementById('cm-date').textContent = ev.date || 'TBA';
+    document.getElementById('cm-team').textContent = ev.team || 'Solo';
+    
+    const fallBackImg = ev.img || 'https://images.unsplash.com/photo-1614729939124-03290b5609ce?auto=format&fit=crop&q=80&w=1200';
+    document.getElementById('cm-img').src = fallBackImg;
+    document.getElementById('cm-bg').style.backgroundImage = `url('${fallBackImg}')`;
+    
+    const regBtn = document.getElementById('cm-reg-btn');
+    regBtn.onclick = () => {
+        closeCinematicModal();
+        setTimeout(() => openRegister(id), 500);
+    };
+
+    document.getElementById('cm-modal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeCinematicModal() {
+    if(window.VYOM_AUDIO) window.VYOM_AUDIO.playSFX('hover');
+    document.getElementById('cm-modal').classList.remove('active');
+    document.body.style.overflow = '';
 }
 
 function openRegister(id) {
     const ev = getEventById(id);
     if (!ev) return;
     
-    if(window.Vidyut_AUDIO) window.Vidyut_AUDIO.play('menu');
+    if(window.VYOM_AUDIO) window.VYOM_AUDIO.playSFX('metal-click');
 
     document.getElementById('term-event-id').textContent = `VY-${ev.id.substring(0,6).toUpperCase()}`;
     document.getElementById('term-event-name').textContent = ev.name;
@@ -177,6 +202,9 @@ document.addEventListener('DOMContentLoaded', () => {
     
     // Esc to close
     document.addEventListener('keydown', e => {
-        if(e.key === 'Escape') closeTerminal();
+        if(e.key === 'Escape') {
+            closeTerminal();
+            closeCinematicModal();
+        }
     });
 });
